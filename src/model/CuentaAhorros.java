@@ -17,6 +17,7 @@ public class CuentaAhorros extends Cuenta {
 	 * cuenta de ahorros
 	 * @param numCuenta Parametro que define el numero de la cuenta
 	 */
+
 	public CuentaAhorros(float saldo, float tasa, String numCuenta) {
 		super(saldo, tasa,numCuenta);
 		if (saldo < 10000) /* Si el saldo es menor a 10000, la cuenta no se activa */
@@ -24,6 +25,11 @@ public class CuentaAhorros extends Cuenta {
 		else
 			activa = true;
 	}
+
+	public CuentaAhorros() {
+		super();
+	}
+
 	/**
 	 * Método que recibe una cantidad de dinero a retirar y actualiza el
 	 * saldo de la cuenta
@@ -31,11 +37,18 @@ public class CuentaAhorros extends Cuenta {
 	 * cuenta de ahorros
 	 * @throws CuentaException
 	 */
-	public void retirar(float cantidad) throws CuentaException {
+	public boolean retirar(float cantidad){
+		boolean flag = false;
 		 // Si la cuenta está activa, se puede retirar dinero
-		if (this.activa)
+		if (this.activa){
 			/* Invoca al método retirar de la clase padre */
-			super.retirar(cantidad);
+
+			 flag = super.retirar(cantidad);
+		}
+		return flag;
+
+
+
 	}
 	/**
 	 * Método que recibe una cantidad de dinero a consignar y actualiza
@@ -70,4 +83,16 @@ public class CuentaAhorros extends Cuenta {
 		System.out.println("Número de transacciones = "+ (númeroConsignaciones + númeroRetiros));
 		System.out.println();
 	}
+	@Override
+	public String toString() {
+		return super.toString() + "\nEstado de la cuenta: " + activa;
+	}
+	public boolean isActiva() {
+		return activa;
+	}
+	public void setActiva(boolean activa) {
+		this.activa = activa;
+	}
+
+
 }

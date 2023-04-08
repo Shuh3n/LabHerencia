@@ -46,12 +46,61 @@ public abstract class Cuenta {
 		this.numCuenta= numCuenta;
 	}
 
+
+
+
+	public Cuenta() {
+		super();
+	}
+
+	public float getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(float saldo) {
+		this.saldo = saldo;
+	}
+
+	public int getNúmeroConsignaciones() {
+		return númeroConsignaciones;
+	}
+
+	public void setNúmeroConsignaciones(int númeroConsignaciones) {
+		this.númeroConsignaciones = númeroConsignaciones;
+	}
+
+	public int getNúmeroRetiros() {
+		return númeroRetiros;
+	}
+
+	public void setNúmeroRetiros(int númeroRetiros) {
+		this.númeroRetiros = númeroRetiros;
+	}
+
+	public float getTasaAnual() {
+		return tasaAnual;
+	}
+
+	public void setTasaAnual(float tasaAnual) {
+		this.tasaAnual = tasaAnual;
+	}
+
+	public float getComisiónMensual() {
+		return comisiónMensual;
+	}
+
+	public void setComisiónMensual(float comisiónMensual) {
+		this.comisiónMensual = comisiónMensual;
+	}
+
 	/**
 	 * Método que recibe una cantidad de dinero a consignar y actualiza
 	 * el saldo de la cuenta
 	 * @param saldo Parámetro que define la cantidad de dinero a
 	 * consignar en la cuenta
 	 */
+
+
 	public void consignar(float cantidad) {
 		saldo +=cantidad;
 		númeroConsignaciones ++;
@@ -64,15 +113,19 @@ public abstract class Cuenta {
 	198 Ejercicios de programación orientada a objetos con Java y UML
 	 * @throws CuentaException
 	 */
-	public void retirar(float cantidad) throws CuentaException {
+	public boolean retirar(float cantidad)  {
+		boolean flag = false;
 		float nuevoSaldo = saldo - cantidad;
 		/* Si la cantidad a retirar no supera el saldo, el retiro no se puede realizar */
 		if (nuevoSaldo >= 0) {
 			saldo -= cantidad;
 			númeroRetiros ++;
-		} else {
-			throw new CuentaException("El saldo excede el valor actual");
+			flag = true;
+
+
 		}
+		return flag;
+
 	}
 	/**
 	 * Método que calcula interés mensual de la cuenta a partir de la tasa
@@ -91,4 +144,22 @@ public abstract class Cuenta {
 		saldo -= comisiónMensual;
 		calcularInterés();
 	}
+
+	@Override
+	public String toString() {
+		return "Saldo: " + saldo +
+				"\nNúmero de Consignaciones: " + númeroConsignaciones +
+				"\nNúmero de Retiros: " + númeroRetiros +
+				"\nTasa Anual: " + tasaAnual +
+				"\nComisión Mensual: " + comisiónMensual +
+				"\nNúmero de Cuenta: " + numCuenta;
+
+	}
+
+
+
+
+
+
+
 }

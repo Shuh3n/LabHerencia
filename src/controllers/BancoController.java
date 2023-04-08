@@ -2,6 +2,7 @@ package controllers;
 
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -14,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Banco;
 
 public class BancoController implements Initializable{
 
@@ -34,8 +34,6 @@ public class BancoController implements Initializable{
 
 	private Aplicacion aplicacion;
 
-	private Banco Banco;
-
 
 
     @FXML
@@ -43,11 +41,12 @@ public class BancoController implements Initializable{
     	FXMLLoader loader= new FXMLLoader();
 		loader.setLocation(Aplicacion.class.getResource("../Views/AhorroView.fxml"));
 		AnchorPane anchorPane= (AnchorPane)loader.load();
-		AhorroController controller = loader.getController();
+		AhorroController Ahorroscontroller = loader.getController();
+		Ahorroscontroller.setAplicacion(aplicacion);
 		Scene scene= new Scene(anchorPane);
 		Stage stage = new Stage();
 		stage.setScene(scene);
-		controller.init(stage, this);
+		Ahorroscontroller.init(stage, this);
 		stage.show();
 		this.stage.close();
 
@@ -58,7 +57,18 @@ public class BancoController implements Initializable{
 	}
 
     @FXML
-    void showVentanaCorriente(ActionEvent event) {
+    void showVentanaCorriente(ActionEvent event) throws IOException {
+    	FXMLLoader loader= new FXMLLoader();
+		loader.setLocation(Aplicacion.class.getResource("../Views/CorrienteView.fxml"));
+		AnchorPane anchorPane= (AnchorPane)loader.load();
+		CorrienteController Corrientecontroller = loader.getController();
+		Corrientecontroller.setAplicacion(aplicacion);
+		Scene scene= new Scene(anchorPane);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		Corrientecontroller.init(stage, this);
+		stage.show();
+		this.stage.close();
 
     }
 
@@ -69,12 +79,10 @@ public class BancoController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 
 	}
 	public void setAplicacion(Aplicacion aplicacion) {
 		this.aplicacion= aplicacion;
-		this.Banco= aplicacion.getBanco();
 
 	}
 	public void setStage(Stage primaryStage) {

@@ -23,22 +23,29 @@ public class CuentaCorriente extends Cuenta {
 		super(saldo, tasa,numCuenta); // Invoca al constructor de la clase padre
 		sobregiro = 0; // Inicialmente no hay sobregiro
 	}
+	public CuentaCorriente() {
+	}
+
 	/**
 	 * Método que recibe una cantidad de dinero a retirar y actualiza el
 	 * saldo de la cuenta
 	 * @param cantidad Parámetro que define la cantidad de dinero a
 	 * retirar de la cuenta corriente
+	 * @return
 	 * @throws CuentaException
 	 */
-	public void retirar(float cantidad) throws CuentaException {
+	public boolean retirar(float cantidad)  {
+		boolean flag = false;
 		float resultado = saldo - cantidad; // Se calcula un saldo temporal
 		/* Si el valor a retirar supera el saldo de la cuenta, el valor excedente se convierte en sobregiro y el saldo es cero */
 		if (resultado < 0) {
 			sobregiro = sobregiro - resultado;
 			saldo = 0;
+			flag = true;
 		} else {
 			super.retirar(cantidad); /* Si no hay sobregiro, se realiza un retiro normal */
 		}
+		return flag;
 	}
 	/**
 	 * Método que recibe una cantidad de dinero a consignar y actualiza
@@ -57,7 +64,8 @@ public class CuentaCorriente extends Cuenta {
 				sobregiro = -residuo;
 				saldo = 0;
 			}
-		} else {
+		}
+		else {
 			super.consignar(cantidad); /* Si no hay sobregiro, se realiza una consignación normal */
 		}
 	}

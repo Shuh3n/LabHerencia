@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.CuentaException;
+
 public class Banco {
 
 	List<Cuenta> listaCuentas = new ArrayList<Cuenta>();
@@ -46,18 +48,94 @@ public class Banco {
 	 * @param num_Cuenta
 	 * @return
 	 */
-    public Cuenta consultarCuenta(String num_Cuenta) {
-        if(!listaCuentas.isEmpty()){
+    public CuentaAhorros consultarCuenta(String numCuenta) {
+
+        if(verificarCuenta(numCuenta)){
             for (int i = 0; i < listaCuentas.size(); i++) {
-            	if(verificarCuenta(listaCuentas.get(i).getNumCuenta())){
-                   return listaCuentas.get(i);
+            	if(listaCuentas.get(i).getNumCuenta().equals(numCuenta)){
+                   return (CuentaAhorros)listaCuentas.get(i);
             	}
             }
         }
 
-           return null;
+        return null;
 
 
     }
+    public CuentaCorriente consultarCuentaCorriente(String numCuenta) {
+
+        if(verificarCuenta(numCuenta)){
+            for (int i = 0; i < listaCuentas.size(); i++) {
+            	if(listaCuentas.get(i).getNumCuenta().equals(numCuenta)){
+                   return (CuentaCorriente)listaCuentas.get(i);
+            	}
+            }
+        }
+
+        return null;
+
+
+    }
+    public boolean crearCuenta(String numCuenta, float saldo, float tasaAnual){
+
+    	if(!verificarCuenta(numCuenta)){
+    		Cuenta cuenta = new CuentaAhorros(saldo, tasaAnual, numCuenta);
+    		listaCuentas.add(cuenta);
+    		return true;
+    	}
+		return false;
+
+
+    }
+    public boolean crearCuentaCorriente(String numCuenta, float saldo, float tasaAnual){
+
+    	if(!verificarCuenta(numCuenta)){
+    		Cuenta cuenta = new CuentaCorriente(saldo, tasaAnual, numCuenta);
+    		listaCuentas.add(cuenta);
+    		return true;
+    	}
+		return false;
+
+
+    }
+
+	public boolean consignarAhorro(String numCuentaConsignar, float numSaldoConsignar) throws CuentaException {
+		 CuentaAhorros cuenta= new CuentaAhorros();
+		 boolean flag = false;
+	        cuenta= (CuentaAhorros) consultarCuenta(numCuentaConsignar);
+	        if(cuenta!=null){
+	            cuenta.consignar(numSaldoConsignar);
+	            flag= true;
+	        }
+	        return flag;
+
+	}
+
+	public boolean retirarAhorro(String numCuentaretirar, float saldoRetiro) {
+		boolean flag = false;
+        CuentaAhorros cuenta= new CuentaAhorros();
+        cuenta= (CuentaAhorros) consultarCuenta(numCuentaretirar);
+        if(cuenta!=null){
+            flag = cuenta.retirar(saldoRetiro);
+        }
+        return flag;
+    }
+
+	public boolean consignarCorriente(String txtnumCuenta, float numSaldoConsignar) {
+		CuentaCorriente cuenta= new CuentaCorriente();
+		 boolean flag = false;
+	        cuenta= (CuentaCorriente) consultarCuentaCorriente(txtnumCuenta);
+	        if(cuenta!=null){
+	            cuenta.consignar(numSaldoConsignar);
+	            flag= true;
+	        }
+	        return flag;
+
+	}
+
+
+
+
+
 
 }
